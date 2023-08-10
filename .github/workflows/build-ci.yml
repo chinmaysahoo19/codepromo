@@ -1,0 +1,16 @@
+name: CI Node JS
+on:
+  push:
+    branches:
+      - main
+      - release*
+    tags:
+      - v*
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: |
+          echo "Helo Helo"
