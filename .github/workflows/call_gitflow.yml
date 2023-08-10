@@ -67,8 +67,10 @@ jobs:
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git reset --hard \
              && git checkout ${release_branch} \
+             && git reset --hard \
              && git pull origin ${release_branch} \
              && git checkout -b prod \
+             && git reset --hard \
              && git pull origin prod \
              && git merge --no-ff ${release_branch} \
              && git push origin prod  \
