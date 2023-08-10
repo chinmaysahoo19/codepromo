@@ -66,7 +66,7 @@ jobs:
           if [[ $( git branch -a | grep release ) ]]; then
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git checkout ${release_branch} \
-             && git checkout -b prod \
+             && git checkout prod \
              && git merge --no-ff ${release_branch} \
              && git push origin prod  \
              && version=$(jq -r '.version' package.json) \
