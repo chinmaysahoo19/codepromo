@@ -73,6 +73,7 @@ jobs:
              git push origin v$version
              git push origin prod
              git  branch -D ${release_branch}
+             git push origin -d  release/5.0.0
           else
              echo "Release does not exist.  Please release start"
              exit 1
