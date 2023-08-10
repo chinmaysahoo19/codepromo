@@ -28,7 +28,7 @@ jobs:
         run: |
           git clone  git@github.com:${GITHUB_REPOSITORY}.git .
       - name: Version Increment
-        if: ${{ inputs.gitflow_type }} == 'version_increment'
+        if: inputs.gitflow_type  == 'version_increment'
         run: |
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
@@ -39,7 +39,7 @@ jobs:
           git commit -m "$BUMP_VERSION_MESSAGE $version"
           git push origin main
       - name: Release Start
-        if: ${{ inputs.gitflow_type }} == 'release_start'
+        if: inputs.gitflow_type  == 'release_start'
         run: |
           if [[ $( git branch -a | grep release ) ]]; then
             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
@@ -60,7 +60,7 @@ jobs:
           git checkout -b release/${version}
           git push origin release/${version}
       - name: Release Finish
-        if: ${{ inputs.gitflow_type }} == 'release_finish'
+        if: inputs.gitflow_type == 'release_finish'
         run: |
           if [[ $( git branch -a | grep release ) ]]; then
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
