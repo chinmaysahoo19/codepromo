@@ -67,8 +67,8 @@ jobs:
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git checkout ${release_branch} \
              && git checkout -b prod \
-             && git merge ${release_branch} \
-             && git push origin prod --ff-only  \
+             && git merge --no-ff ${release_branch} \
+             && git push origin prod  \
              && version=$(jq -r '.version' package.json) \
              && git tag v$version \
              && git push origin v$version \
