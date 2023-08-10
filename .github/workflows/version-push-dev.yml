@@ -1,0 +1,41 @@
+name: DEV - Main Branch  Version Increment
+on:
+  workflow_dispatch:
+    inputs:
+      increment_type:
+        description: Choose Increment Type From Option
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+env:
+  GIT_SSH_PK: ${{ secrets.GIT_SSH_PK }}
+jobs:
+  print-tag:
+    runs-on: ubuntu-latest
+    name: Increment Version & Create Tag
+    steps:
+      - name: "Git Config"
+        run: |
+          mkdir -p ~/.ssh
+          echo "$GIT_SSH_PK" | base64 -d >~/id_rsa &&
+          ssh-keyscan github.com > ~/.ssh/known_hosts
+          cp ~/id_rsa  ~/.ssh/ && chmod -R 700 ~/.ssh && chmod -R 400 ~/.ssh/*
+          git config --global --add safe.directory "*"
+          git config --global user.name "Github Action "
+          git config --global user.email "githubaction@github.com"
+
+      - name: Clone Repo
+        run: |
+          git clone  git@github.com:${GITHUB_REPOSITORY}.git .
+      - name: Version Push
+        run: |
+          BUMP_VERSION_MESSAGE='[Version Push]'
+          git checkout main
+          git reset --hard origin/main
+          yarn version --${{ inputs.increment_type }} --no-git-tag-version --no-commit-hooks
+          version=$(jq -r '.version' package.json)
+          git add package.json
+          git commit -m "$BUMP_VERSION_MESSAGE $version"
+          git push origin main
