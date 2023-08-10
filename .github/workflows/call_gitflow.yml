@@ -68,7 +68,7 @@ jobs:
              git checkout ${release_branch} \
              && git checkout -b prod \
              && git merge ${release_branch} \
-             && git push origin prod \
+             && git push origin prod --ff-only  \
              && version=$(jq -r '.version' package.json) \
              && git tag v$version \
              && git push origin v$version \
