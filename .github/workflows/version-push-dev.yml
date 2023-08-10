@@ -48,13 +48,15 @@ jobs:
           git commit -m "$BUMP_VERSION_MESSAGE $version"
           git push origin main
 
-      - name: Version Push
+      - name: Release Start
         if: inputs.gitflow_type == 'release_start'
         run: |
+          if [[ $( git branch -a | grep release ) ]];
+            echo $(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
+            exit 1
+          fi
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
-          git reset --hard origin/main
-          yarn version --${{ inputs.increment_type }} --no-git-tag-version --no-commit-hooks
           version=$(jq -r '.version' package.json)
           git checkout -b release/${version}
           git push origin release/${version}
