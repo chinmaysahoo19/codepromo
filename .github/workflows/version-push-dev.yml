@@ -64,12 +64,13 @@ jobs:
         if: inputs.gitflow_type == 'release_finish'
         run: |
           if [[ $( git branch -a | grep release ) ]]; then
-            release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
-            git checkout ${release_branch}
-            git checkout -b prod
-            git merge ${release_branch}
-            version=$(jq -r '.version' package.json)
-            git tag v$version
-            git push origin v$version
-            git push origin prod
-            git  branch -D ${release_branch}
+             release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
+             git checkout ${release_branch}
+             git checkout -b prod
+             git merge ${release_branch}
+             version=$(jq -r '.version' package.json)
+             git tag v$version
+             git push origin v$version
+             git push origin prod
+             git  branch -D ${release_branch}
+          fi
