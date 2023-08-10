@@ -52,7 +52,7 @@ jobs:
         if: inputs.gitflow_type == 'release_start'
         run: |
           if [[ $( git branch -a | grep release ) ]]; then
-            echo $(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
+            echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
             exit 1
           fi
           BUMP_VERSION_MESSAGE='[Version Push]'
@@ -73,4 +73,6 @@ jobs:
              git push origin v$version
              git push origin prod
              git  branch -D ${release_branch}
+          else
+             echo "Release does not exist.  Please release start"
           fi
