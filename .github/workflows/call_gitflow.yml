@@ -65,7 +65,7 @@ jobs:
           set -x
           if [[ $( git branch -a | grep release ) ]]; then
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
-             && git reset --hard \
+             git reset --hard \
              && git checkout ${release_branch} \
              && git pull origin ${release_branch} \
              && git checkout -b prod \
