@@ -51,7 +51,7 @@ jobs:
       - name: Release Start
         if: inputs.gitflow_type == 'release_start'
         run: |
-          if [[ $( git branch -a | grep release ) ]];
+          if [[ $( git branch -a | grep release ) ]]; then
             echo $(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
             exit 1
           fi
