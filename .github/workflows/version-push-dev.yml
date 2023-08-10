@@ -1,4 +1,4 @@
-name: DEV - Main Branch  Version Increment
+name: GIT Flow
 on:
   workflow_dispatch:
     inputs:
@@ -36,7 +36,7 @@ jobs:
       - name: Clone Repo
         run: |
           git clone  git@github.com:${GITHUB_REPOSITORY}.git .
-      - name: Version Push
+      - name: Version Incremement
         if: inputs.gitflow_type == 'version_increment'
         run: |
           BUMP_VERSION_MESSAGE='[Version Push]'
@@ -54,6 +54,16 @@ jobs:
           if [[ $( git branch -a | grep release ) ]]; then
             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
             exit 1
+          else
+            GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+            echo $GIT_TAG
+            PACKAGE_VERSION=v$(jq -r '.version' package.json)
+            echo $PACKAGE_VERSION
+            if [[ "${GIT_TAG}" == "${PACKAGE_VERSION}" ]]; then
+              echo -e "\e[31m  Version  ${PACKAGE_VERSION} Present. Please run with option version_increment first. '\e[39m"
+              exit 1
+          fi
+          
           fi
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
