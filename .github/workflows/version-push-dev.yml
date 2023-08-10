@@ -19,9 +19,9 @@ on:
 env:
   GIT_SSH_PK: ${{ secrets.GIT_SSH_PK }}
 jobs:
-  print-tag:
+  gitflow:
     runs-on: ubuntu-latest
-    name: Increment Version & Create Tag
+    name: Git Flow
     steps:
       - name: "Git Config"
         run: |
@@ -36,8 +36,12 @@ jobs:
       - name: Clone Repo
         run: |
           git clone  git@github.com:${GITHUB_REPOSITORY}.git .
-      - name: Version Incremement
-        if: inputs.gitflow_type == 'version_increment'
+  versionincrement:
+    needs: gitflow
+    runs-on: ubuntu-latest
+    name: Git Flow
+    steps:
+      - name: Version Increment
         run: |
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
@@ -48,6 +52,11 @@ jobs:
           git commit -m "$BUMP_VERSION_MESSAGE $version"
           git push origin main
 
+  releasestart:
+    needs: gitflow
+    runs-on: ubuntu-latest
+    name: Git Flow
+    steps:
       - name: Release Start
         if: inputs.gitflow_type == 'release_start'
         run: |
@@ -70,6 +79,11 @@ jobs:
           version=$(jq -r '.version' package.json)
           git checkout -b release/${version}
           git push origin release/${version}
+  releasefinish:
+    needs: gitflow
+    runs-on: ubuntu-latest
+    name: Git Flow
+    steps:
       - name: Release Finish
         if: inputs.gitflow_type == 'release_finish'
         run: |
