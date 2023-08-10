@@ -29,5 +29,5 @@ jobs:
     uses: ./.github/workflows/call_gitflow.yml
     secrets: inherit
     with:
-      gitflow_type = ${{ inputs.gitflow_type }}
-      increment_type = ${{ inputs.increment_type }}
+      gitflow_type: ${{ inputs.gitflow_type }}
+      increment_type: ${{ inputs.increment_type }}
