@@ -2,6 +2,13 @@ name: DEV - Main Branch  Version Increment
 on:
   workflow_dispatch:
     inputs:
+      gitflow_type:
+        description: Please choose Version Push Type
+        type: choice
+        options:
+          - version_increment
+          - release_start
+          - release_finish
       increment_type:
         description: Choose Increment Type From Option
         type: choice
@@ -30,6 +37,7 @@ jobs:
         run: |
           git clone  git@github.com:${GITHUB_REPOSITORY}.git .
       - name: Version Push
+        if: inputs.gitflow_type == 'version_increment'
         run: |
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
