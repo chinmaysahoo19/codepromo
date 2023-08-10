@@ -64,7 +64,7 @@ jobs:
         if: inputs.gitflow_type == 'release_finish'
         run: |
           if [[ $( git branch -a | grep release ) ]]; then
-             release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option.
+             release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git checkout ${release_branch}
              git checkout -b prod
              git merge ${release_branch}
