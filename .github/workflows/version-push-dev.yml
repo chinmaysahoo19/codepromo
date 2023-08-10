@@ -25,7 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
   codepromotion:
-    uses: .github/workflows/call_gitflow.yml
+    needs: gitflow
+    uses: ./.github/workflows/call_gitflow.yml
     secrets: inherit
     with:
       gitflow_type = ${{ inputs.gitflow_type }}
