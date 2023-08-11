@@ -9,13 +9,14 @@ on:
           - version_increment
           - release_start
           - release_finish
+          - hotfix_start
+          - hotfix_finish
       increment_type:
         description: Choose Increment Type From Option
         type: choice
         options:
           - major
           - minor
-          - patch
 env:
   GIT_SSH_PK: ${{ secrets.GIT_SSH_PK }}
 jobs:
