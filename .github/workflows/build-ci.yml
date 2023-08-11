@@ -21,7 +21,7 @@ jobs:
     needs: build
     name: "Deploy/ ${{ github.ref_name }}"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' &&  (github.ref_name == 'main' || github.ref_name == 'release/*' || github.ref_name == 'hotfix' || github.ref_type == 'tag')
+    if: github.event_name == 'push' &&  (github.ref_name == 'main' || contains(github.ref_name, 'release') || github.ref_name == 'hotfix' || github.ref_type == 'tag')
     steps:
       - name: "Deploy on  ${{ github.ref_name }} branch"
         run: |
