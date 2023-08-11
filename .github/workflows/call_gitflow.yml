@@ -45,7 +45,7 @@ jobs:
             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
             exit 1
           else
-            GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+            GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1 || true` || true)
             echo $GIT_TAG
             PACKAGE_VERSION=v$(jq -r '.version' package.json)
             echo $PACKAGE_VERSION
