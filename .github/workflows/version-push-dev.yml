@@ -1,5 +1,4 @@
-run-name: GIT Flow
-name: GIT Flow
+run-name: Git Flow - ${{ inputs.gitflow_type }}
 on:
   workflow_dispatch:
     inputs:
