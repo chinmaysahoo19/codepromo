@@ -17,7 +17,6 @@ on:
         options:
           - major
           - minor
-          - patch
 env:
   GIT_SSH_PK: ${{ secrets.GIT_SSH_PK }}
 jobs:
