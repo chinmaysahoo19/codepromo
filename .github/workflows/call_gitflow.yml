@@ -116,9 +116,9 @@ jobs:
              && git push origin v$version \
              && git  branch -D hotfix \
              && git push origin -d  hotfix 
-          if [[ $( git branch -a | grep release ) ]]; then
+          elif [[ $( git branch -a | grep release ) ]]; then
              echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
-            exit 1
+             exit 1
           else
              echo "Hotfix does not exist.  Please Hotfix start option"
              exit 1
