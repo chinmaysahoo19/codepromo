@@ -9,6 +9,8 @@ on:
           - version_increment
           - release_start
           - release_finish
+          - hotfix-start
+          - hotfix-finish
       increment_type:
         description: Choose Increment Type From Option
         type: choice

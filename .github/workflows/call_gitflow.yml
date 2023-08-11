@@ -80,3 +80,46 @@ jobs:
              exit 1
           fi
 
+      - name: Hotfix Start
+        if: inputs.gitflow_type  == 'hotfix_start'
+        run: |
+          if [[ $( git branch -a | grep release ) ]]; then
+            echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
+            exit 1
+          elif [[ $( git branch -a | grep hotfix ) ]]; then
+            echo "$(git branch -a | grep hotfix | sed 's/remotes\/origin\///g' ) exist. Please choose hotfix finish option"
+            exit 1
+          else
+            BUMP_VERSION_MESSAGE='[Hotfix] '
+            git checkout prod
+            git checkout -b hotfix
+            yarn version --patch --no-git-tag-version --no-commit-hooks
+            version=$(jq -r '.version' package.json)
+            git add package.json
+            git commit -m "$BUMP_VERSION_MESSAGE $version"
+            git push origin hotfix
+          fi
+
+      - name: HotFix Finish
+        if: inputs.gitflow_type == 'hotfix_finish'
+        run: |
+          set -x
+          if [[ $( git branch -a | grep hotfix ) ]]; then
+             release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
+             git reset --hard
+             git checkout hotfix \
+             && git checkout prod \
+             && git merge --no-ff hotfix \
+             && git push origin prod  \
+             && version=$(jq -r '.version' package.json) \
+             && git tag v$version \
+             && git push origin v$version \
+             && git  branch -D hotfix \
+             && git push origin -d  hotfix 
+          if [[ $( git branch -a | grep release ) ]]; then
+             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
+            exit 1
+          else
+             echo "Hotfix does not exist.  Please Hotfix start option"
+             exit 1
+          fi
