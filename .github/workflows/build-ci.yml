@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - release/**
+      - hotfix
+      - prod
     tags:
       - v*
 jobs:
@@ -11,6 +13,16 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
+      - name: "Build on  ${{ github.ref_name }} branch"
         run: |
-          echo "Helo Helo"
+          echo "Build  from ${GITHUB_REF_NAME}"
+
+  deploy:
+    needs: build
+    name: "Deploy/ ${{ github.ref_name }}"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' &&  (github.ref_name == 'main' || github.ref_name == 'release/*' || github.ref_name == 'hotfix' || github.ref_type == 'tag')
+    steps:
+      - name: "Deploy on  ${{ github.ref_name }} branch"
+        run: |
+          echo "Deploy from ${GITHUB_REF_NAME}"
