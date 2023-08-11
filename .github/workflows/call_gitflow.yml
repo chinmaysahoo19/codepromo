@@ -30,6 +30,7 @@ jobs:
       - name: Version Increment
         if: inputs.gitflow_type  == 'version_increment'
         run: |
+          cd app
           BUMP_VERSION_MESSAGE='[Version Push]'
           git checkout main
           git reset --hard origin/main
@@ -41,6 +42,7 @@ jobs:
       - name: Release Start
         if: inputs.gitflow_type  == 'release_start'
         run: |
+          cd app
           if [[ $( git branch -a | grep release ) ]]; then
             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
             exit 1
@@ -62,7 +64,7 @@ jobs:
       - name: Release Finish
         if: inputs.gitflow_type == 'release_finish'
         run: |
-          set -x
+          cd app
           if [[ $( git branch -a | grep release ) ]]; then
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git reset --hard
@@ -83,6 +85,7 @@ jobs:
       - name: Hotfix Start
         if: inputs.gitflow_type  == 'hotfix_start'
         run: |
+          cd app
           if [[ $( git branch -a | grep release ) ]]; then
             echo "$(git branch -a | grep release | sed 's/remotes\/origin\///g' ) exist. Please choose release finish option"
             exit 1
@@ -103,7 +106,7 @@ jobs:
       - name: HotFix Finish
         if: inputs.gitflow_type == 'hotfix_finish'
         run: |
-          set -x
+          cd app
           if [[ $( git branch -a | grep hotfix ) ]]; then
              release_branch=$(git branch -a | grep release | sed 's/remotes\/origin\///g' )
              git reset --hard
