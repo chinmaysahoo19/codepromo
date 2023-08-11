@@ -13,6 +13,6 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - name: "Running on  ${{ github.ref_type }} branch"
+      - name: "Running on  ${{ github.ref_name }} branch"
         run: |
           echo "I am Running from ${GITHUB_REF_NAME}"
