@@ -32,7 +32,7 @@ jobs:
 
   codepromotion:
     needs: gitflow
-    uses: ./.github/workflows/.call_gitflow.yml
+    uses: ./.github/workflows/call_gitflow.yml
     secrets: inherit
     with:
       gitflow_type: ${{ needs.gitflow.outputs.gitflow_type }}
