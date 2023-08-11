@@ -1,4 +1,5 @@
-name: GIT Flow
+run-name: Git Flow - ${{ inputs.gitflow_type }}
+name: Git Flow
 on:
   workflow_dispatch:
     inputs:
@@ -22,7 +23,7 @@ env:
 jobs:
   gitflow:
     runs-on: ubuntu-latest
-    name: Git Flow
+    name: Git Flow - ${{ inputs.gitflow_type }}
     steps:
       - uses: actions/checkout@v3
 
