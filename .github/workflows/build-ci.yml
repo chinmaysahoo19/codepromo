@@ -15,4 +15,4 @@ jobs:
     steps:
       - name: "Running on  ${{ github.ref_type }} branch"
         run: |
-          echo "I am Running from ${GITHUB_REF_NAME}""
+          echo "I am Running from ${GITHUB_REF_NAME}"
