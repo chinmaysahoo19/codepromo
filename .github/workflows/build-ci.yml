@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - release/**
+      - hotfix
+      - prod
     tags:
       - v*
 jobs:
@@ -11,6 +13,6 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
+      - name: "Running on  ${{ github.ref_type }} branch"
         run: |
-          echo "Helo Helo"
+          echo "I am Running from ${GITHUB_REF_NAME}""
