@@ -13,6 +13,15 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - name: "Running on  ${{ github.ref_name }} branch"
+      - name: "Build on  ${{ github.ref_name }} branch"
         run: |
-          echo "I am Running from ${GITHUB_REF_NAME}"
+          echo "Build  from ${GITHUB_REF_NAME}"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' &&  (github.ref_name == 'main' || github.ref_name == 'release/*' || github.ref_name == 'hotfix' || github.ref_type == 'tag')
+    steps:
+      - name: "Deploy on  ${{ github.ref_name }} branch"
+        run: |
+          echo "Deploy from ${GITHUB_REF_NAME}"
