@@ -17,8 +17,9 @@ jobs:
       - name: "Git Config"
         run: |
           mkdir -p ~/.ssh
-           echo "$GIT_SSH_PK"  | base64 -d > /tmp/a.txt
+           echo "$GIT_SSH_PK"  > /tmp/a.txt
            cat /tmp/a.txt
+           echo "===="
           echo "$GIT_SSH_PK" | base64 -d >~/id_rsa &&
           ssh-keyscan github.com > ~/.ssh/known_hosts
           cp ~/id_rsa  ~/.ssh/ && chmod -R 700 ~/.ssh && chmod -R 400 ~/.ssh/*
